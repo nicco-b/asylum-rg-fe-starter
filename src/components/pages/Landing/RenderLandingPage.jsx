@@ -1,8 +1,8 @@
 import React from 'react';
 // ADD IMPORTS BACK FOR GRAPHS SECTION
-// import GrantRatesByOfficeImg from '../../../styles/Images/bar-graph-no-text.png';
-// import GrantRatesByNationalityImg from '../../../styles/Images/pie-chart-no-text.png';
-// import GrantRatesOverTimeImg from '../../../styles/Images/line-graph-no-text.png';
+import GrantRatesByOfficeImg from '../../../styles/Images/bar-graph-no-text.png';
+import GrantRatesByNationalityImg from '../../../styles/Images/pie-chart-no-text.png';
+import GrantRatesOverTimeImg from '../../../styles/Images/line-graph-no-text.png';
 import HrfPhoto from '../../../styles/Images/paper-stack.jpg';
 import '../../../styles/RenderLandingPage.less';
 import { Button } from 'antd';
@@ -31,8 +31,23 @@ function RenderLandingPage(props) {
         </div>
       </div>
 
-      {/* Graphs Section: Add code here for the graphs section for your first ticket */}
-      {/* <div className="graphs-section"> */}
+      {/* Graphs Section */}
+      <div className="graphs-section">
+        <CardWithCaption caption="Grant Rates By Office">
+          <img src={GrantRatesByOfficeImg} alt={'Grant Rates By Office'} />
+        </CardWithCaption>
+        <CardWithCaption caption="Grant Rates By Nationality">
+          <img
+            src={GrantRatesByNationalityImg}
+            alt="Grant Rates By Nationality"
+          />
+        </CardWithCaption>
+        <CardWithCaption caption="Grant Rates Over Time">
+          <img src={GrantRatesOverTimeImg} alt="Grant Rates Over Time" />
+        </CardWithCaption>
+      </div>
+      {/* Graphs Section */}
+
       <div className="view-more-data-btn-container">
         <Button
           type="default"
@@ -41,8 +56,14 @@ function RenderLandingPage(props) {
         >
           View the Data
         </Button>
+        <Button
+          type="default"
+          style={{ backgroundColor: '#404C4A', color: '#FFFFFF' }}
+          onClick={() => history.push('/graphs')}
+        >
+          Download The Data
+        </Button>
       </div>
-
       <div className="middle-section">
         <div className="hrf-img-container">
           <img src={HrfPhoto} alt="Human Rights First" className="hrf-img" />
@@ -61,12 +82,41 @@ function RenderLandingPage(props) {
       </div>
       <div>
         {/* Bottom Section: Add code here for the graphs section for your first ticket */}
-        {/* <div className="bottom-section">*/}
-        <p onClick={() => scrollToTop()} className="back-to-top">
-          Back To Top ^
-        </p>
+        <div className="bottom-section">
+          <h3>Systemic Disparity Highlights</h3>
+          <div className="graphs-section">
+            <CardWithCaption caption="By the end of the Trump administration, the average asylum office grant rate had fallen 36 percent from an average of 44 percent in fiscal year 2016 to 28 percent in fiscal year 2020 ">
+              <h2>36%</h2>
+            </CardWithCaption>
+            <CardWithCaption caption="The New York asylum office grant rate dropped to 5 percent in the fiscal year 2020.">
+              <h2>5%</h2>
+            </CardWithCaption>
+            <CardWithCaption caption="Between fiscal year 2017 and 2020, the New York asylum office's average grant rate was six times lower than the San Fransisco asylum office.">
+              <h2>6x Lower</h2>
+            </CardWithCaption>
+          </div>
+          <Button
+            type="default"
+            style={{ backgroundColor: '#404C4A', color: '#FFFFFF' }}
+            onClick={() => console.log('read more button')}
+          >
+            Read More
+          </Button>
+          <p onClick={() => scrollToTop()} className="back-to-top">
+            Back To Top ^
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 export default RenderLandingPage;
+
+function CardWithCaption({ caption, children }) {
+  return (
+    <div className="graph-with-caption">
+      {children}
+      <p>{caption}</p>
+    </div>
+  );
+}
