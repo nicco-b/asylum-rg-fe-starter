@@ -154,8 +154,9 @@ const rawApiDataToPlotlyReadyInfo = (view, office, data) => {
         return { officeHeatMapDataObject, rowsForTable };
 
       case 'citizenship':
+        console.log('data', data);
         rowsForTable = [];
-        for (let item of data[0].citizenshipResults) {
+        for (let item of data) {
           rowItem = {
             Citizenship: item.citizenship,
             'Total Cases': item.totalCases,
@@ -169,12 +170,16 @@ const rawApiDataToPlotlyReadyInfo = (view, office, data) => {
           countries: [],
           countriesPercentGranteds: [],
         };
-        for (let country of data[0]['citizenshipResults']) {
+        for (let country of data) {
           countryGrantRateObj['countries'].push(country['citizenship']);
           countryGrantRateObj['countriesPercentGranteds'].push(
             country['granted']
           );
         }
+        console.log({
+          rowsForTable,
+          countryGrantRateObj,
+        });
         return {
           rowsForTable,
           countryGrantRateObj,
@@ -215,8 +220,10 @@ const rawApiDataToPlotlyReadyInfo = (view, office, data) => {
         };
 
       case 'citizenship':
+        console.log('data2', data);
+
         rowsForTable = [];
-        for (let item of data[0].citizenshipResults) {
+        for (let item of data) {
           rowItem = {
             Citizenship: item.citizenship,
             'Total Cases': item.totalCases,
@@ -230,7 +237,7 @@ const rawApiDataToPlotlyReadyInfo = (view, office, data) => {
           countries: [],
           countriesPercentGranteds: [],
         };
-        for (let country of data[0]['citizenshipResults']) {
+        for (let country of data) {
           countryGrantRateObj['countries'].push(country['citizenship']);
           countryGrantRateObj['countriesPercentGranteds'].push(
             country['granted']

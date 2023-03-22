@@ -72,34 +72,52 @@ function GraphWrapper(props) {
                                    -- Mack 
     
     */
+    console.log('view', view);
+    if (view !== 'citizenship') {
+      if (office === 'all' || !office) {
+        axios
+          .get(`${process.env.REACT_APP_API_URI}/fiscalSummary`, {
+            // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+            params: {
+              from: years[0],
+              to: years[1],
+            },
+          })
+          .then(result => {
+            console.log(result.data, test_data);
+            stateSettingCallback(view, office, [result.data]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      } else {
+        axios
+          .get(`${process.env.REACT_APP_API_URI}/fiscalSummary`, {
+            // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+            params: {
+              from: years[0],
+              to: years[1],
+              office: office,
+            },
+          })
+          .then(result => {
+            console.log(result.data, test_data);
 
-    if (office === 'all' || !office) {
-      axios
-        .get(process.env.REACT_APP_API_URI, {
-          // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-          },
-        })
-        .then(result => {
-          stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
-        })
-        .catch(err => {
-          console.error(err);
-        });
+            stateSettingCallback(view, office, [result.data]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
     } else {
       axios
-        .get(process.env.REACT_APP_API_URI, {
+        .get(`${process.env.REACT_APP_API_URI}/citizenshipSummary`, {
           // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-          params: {
-            from: years[0],
-            to: years[1],
-            office: office,
-          },
         })
         .then(result => {
-          stateSettingCallback(view, office, test_data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+          console.log(result.data, test_data);
+
+          stateSettingCallback(view, office, result.data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
         })
         .catch(err => {
           console.error(err);
