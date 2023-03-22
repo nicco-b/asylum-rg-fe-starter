@@ -110,20 +110,49 @@ function GraphWrapper(props) {
           });
       }
     } else {
-      axios
-        .get(`${process.env.REACT_APP_API_URI}/citizenshipSummary`, {
-          // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
-        })
-        .then(result => {
-          console.log(result.data, test_data);
+      async function getAllData() {
+        return await Promise.all([
+          axios
+            .get(`${process.env.REACT_APP_API_URI}/citizenshipSummary`, {
+              // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+            })
+            .then(result => {
+              return result.data;
 
-          stateSettingCallback(view, office, result.data); // <-- `test_data` here can be simply replaced by `result.data` in prod!
-        })
-        .catch(err => {
-          console.error(err);
+              // stateSettingCallback(view, office, [result.data]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+            })
+            .catch(err => {
+              console.error(err);
+            }),
+          axios
+            .get(`${process.env.REACT_APP_API_URI}/fiscalSummary`, {
+              // mock URL, can be simply replaced by `${Real_Production_URL}/summary` in prod!
+              params: {
+                from: years[0],
+                to: years[1],
+                office: office,
+              },
+            })
+            .then(result => {
+              return result.data;
+              // stateSettingCallback(view, office, [result.data]); // <-- `test_data` here can be simply replaced by `result.data` in prod!
+            })
+            .catch(err => {
+              console.error(err);
+            }),
+        ]).then(res => {
+          return {
+            ...res[1],
+            citizenshipResults: res[0],
+          };
         });
+      }
+      getAllData().then(res => {
+        stateSettingCallback(view, office, [res]);
+      });
     }
   }
+
   const clearQuery = (view, office) => {
     dispatch(resetVisualizationQuery(view, office));
   };
